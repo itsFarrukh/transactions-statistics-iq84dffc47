@@ -7,10 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
 
 @RestController
 @RequestMapping("/transactions")
@@ -18,18 +16,27 @@ public class TransactionController {
 
     @Autowired
     TransactionService transactionService;
-    @PostMapping("/")
+    @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<String> add(@RequestBody Transaction transaction){
         if(transactionService.add(transaction)){
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PostMapping("/testing")
-    ResponseEntity<String> checking(@Valid @RequestBody Transaction transaction){
-        Instant instant = transaction.getTimestamp();
-        LocalDate localDate = instant.atZone(ZoneOffset.UTC).toLocalDate();
-        return new ResponseEntity<String>(HttpStatus.ACCEPTED);
+    @RequestMapping(method = RequestMethod.DELETE)
+    ResponseEntity<String> delete(){
+        transactionService.delete();
+        return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+    }
+    @GetMapping("/tt")
+    ResponseEntity<String> checking(){
+
+        Instant abhi = Instant.now();
+        Instant abhiSephelay = Instant.now().minusSeconds(60);
+        System.out.println(abhi.toEpochMilli());
+        System.out.println(abhiSephelay.toEpochMilli());
+        System.out.println(Instant.now());
+        return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
     }
 }
 

@@ -2,8 +2,10 @@ package com.n26.repository;
 
 import com.n26.model.Transaction;
 import org.springframework.stereotype.Component;
+import org.threeten.extra.Interval;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 
 import static java.time.Instant.now;
 import static java.util.Objects.isNull;
+import static java.util.Objects.requireNonNull;
 
 @Component
 public class TransactionRepository {
@@ -21,10 +24,25 @@ public class TransactionRepository {
 
     private ConcurrentNavigableMap<Long, List<Transaction>> transactions = new ConcurrentSkipListMap<>();
     public boolean addTransaction(Transaction transaction){
-       return   isValid(transaction)? addTransactionsBySecond(transaction):false;
+      // return   isValid(transaction)? addTransactionsBySecond(transaction):false;
+        if (isValid(transaction)) {
+            addTransactionsBySecond(transaction);
+            return true;
+        }
+        return false;
     }
     private boolean isValid(Transaction transaction){
-        return Duration.between(transaction.getTimestamp(),now()).getSeconds()<= interval;
+
+/*        if(transaction.getTimestamp().getEpochSecond() < now().getEpochSecond()){
+            Interval interval= Interval.of(transaction.getTimestamp(),now());
+            Long seconds = interval.toDuration().getSeconds();
+            return seconds <=60 ? true:false;
+        }
+
+        return false;*/
+        /*if(seconds <= 60)
+        return (now().toEpochMilli() - transaction.getTimestamp().toEpochMilli()) <=60000;*/
+        return Duration.between(transaction.getTimestamp(), now()).getSeconds() <= interval;
     }
     private boolean addTransactionsBySecond(Transaction transaction){
         final long transactionTime = transaction.getTimestamp().getEpochSecond();
@@ -45,5 +63,8 @@ public class TransactionRepository {
                 .parallelStream()
                 .flatMap(Collection::parallelStream)
                 .collect(Collectors.toList());
+    }
+    public void delete(){
+         transactions.clear();
     }
 }

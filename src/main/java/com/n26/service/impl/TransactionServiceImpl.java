@@ -21,4 +21,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
+    @Override
+    public void delete() {
+        transactionRepository.delete();
+    }
+
 }
