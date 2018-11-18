@@ -19,7 +19,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
    // @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleException() {
-
         return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
     }
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
