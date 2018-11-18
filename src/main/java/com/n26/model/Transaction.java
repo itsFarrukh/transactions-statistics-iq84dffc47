@@ -7,6 +7,12 @@ public class Transaction {
     Double amount;
     Instant timestamp;
 
+    public Transaction(){}
+    public Transaction(Double amount, Instant timestamp) {
+        this.amount = amount;
+        this.timestamp = timestamp;
+    }
+
     @NotNull
     public Double getAmount() {
         return amount;

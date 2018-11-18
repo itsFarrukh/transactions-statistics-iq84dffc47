@@ -19,19 +19,20 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public Statistics get() {
         DoubleSummaryStatistics summaryStatistics = transactionRepository.getTransactions()
-                                                    .parallelStream()
-                                                    .collect( Collectors.summarizingDouble((Transaction::getAmount)));
-        return new Statistics(convertToBigDecimal( summaryStatistics.getSum()),convertToBigDecimal( summaryStatistics.getAverage()),
-                              convertToBigDecimal(summaryStatistics.getMax()),convertToBigDecimal( summaryStatistics.getMin()),
-                              summaryStatistics.getCount());
+                .parallelStream()
+                .collect(Collectors.summarizingDouble((Transaction::getAmount)));
+        return new Statistics(convertToBigDecimal(summaryStatistics.getSum()), convertToBigDecimal(summaryStatistics.getAverage()),
+                convertToBigDecimal(summaryStatistics.getMax()), convertToBigDecimal(summaryStatistics.getMin()), summaryStatistics.getCount());
     }
-    public BigDecimal convertToBigDecimal(Double amount){
+
+    public BigDecimal convertToBigDecimal(Double amount) {
         BigDecimal decimalValue = new BigDecimal(Double.parseDouble(Double.toString(checkIfDoubleIsNaN(amount))));
-       // decimalValue.setScale(2,BigDecimal.ROUND_HALF_UP);
         return decimalValue;
     }
-    public Double checkIfDoubleIsNaN(Double value){
-      return   Double.isInfinite(value)?0 : value;
+
+    public Double checkIfDoubleIsNaN(Double value) {
+        return Double.isInfinite(value) ? 0 : value;
     }
+
 
 }
