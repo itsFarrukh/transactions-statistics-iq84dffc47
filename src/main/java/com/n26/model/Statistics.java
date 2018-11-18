@@ -1,9 +1,13 @@
 package com.n26.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 @Data
 public class Statistics {
@@ -15,13 +19,15 @@ public class Statistics {
     long count;
 
     public Statistics(BigDecimal sum, BigDecimal avg, BigDecimal max, BigDecimal min, long count) {
-        this.sum = sum;
-        this.avg = avg;
-        this.max = max;
-        this.min = min;
+        this.sum =  sum.setScale(2,RoundingMode.HALF_UP);
+        this.avg = avg.setScale(2, RoundingMode.HALF_UP);
+        this.max = max.setScale(2,RoundingMode.HALF_UP);;
+        this.min = min.setScale(2,RoundingMode.HALF_UP);;
         this.count = count;
     }
 
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     public BigDecimal getSum() {
         return sum;
     }
@@ -30,6 +36,7 @@ public class Statistics {
         this.sum = sum;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     public BigDecimal getAvg() {
         return avg;
     }
@@ -38,6 +45,7 @@ public class Statistics {
         this.avg = avg;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     public BigDecimal getMax() {
         return max;
     }
@@ -46,6 +54,7 @@ public class Statistics {
         this.max = max;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     public BigDecimal getMin() {
         return min;
     }

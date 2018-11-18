@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
+import static java.time.LocalDate.now;
+
 public class Utils {
     public static LocalDateTime getDateTime (String dateStr) throws UnprocessableException {
         try {
@@ -24,7 +26,17 @@ public class Utils {
     }
     public static boolean isValidDate(Instant dateTime){
         LocalDate localDate = dateTime.atZone(ZoneOffset.UTC).toLocalDate();
-        return localDate.isBefore(LocalDate.now(ZoneOffset.UTC))?true:false;
+       /* if(localDate.isBefore(now(ZoneOffset.UTC))){
+            return true;
+
+        }else if(localDate.isEqual(now(ZoneOffset.UTC))){
+            if(dateTime.getEpochSecond()> Instant.now().getEpochSecond()){
+                return false;
+            }else
+                return true;
+        }else
+            return false;*/
+       return localDate.isBefore(now(ZoneOffset.UTC))?true:false;
     }
 
 }

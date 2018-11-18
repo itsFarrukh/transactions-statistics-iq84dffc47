@@ -32,17 +32,8 @@ public class TransactionRepository {
         return false;
     }
     private boolean isValid(Transaction transaction){
-
-/*        if(transaction.getTimestamp().getEpochSecond() < now().getEpochSecond()){
-            Interval interval= Interval.of(transaction.getTimestamp(),now());
-            Long seconds = interval.toDuration().getSeconds();
-            return seconds <=60 ? true:false;
-        }
-
-        return false;*/
-        /*if(seconds <= 60)
-        return (now().toEpochMilli() - transaction.getTimestamp().toEpochMilli()) <=60000;*/
         return Duration.between(transaction.getTimestamp(), now()).getSeconds() <= interval;
+
     }
     private boolean addTransactionsBySecond(Transaction transaction){
         final long transactionTime = transaction.getTimestamp().getEpochSecond();
@@ -53,7 +44,7 @@ public class TransactionRepository {
         transactionAtTime.add(transaction);
         transactions.put(transactionTime,transactionAtTime);
 
-        transactions.put(transaction.getTimestamp().getEpochSecond(),new ArrayList<>());
+        //transactions.put(transaction.getTimestamp().getEpochSecond(),new ArrayList<>());
         return true;
     }
      public List<Transaction> getTransactions(){

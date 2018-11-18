@@ -27,7 +27,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
     public BigDecimal convertToBigDecimal(Double amount){
         BigDecimal decimalValue = new BigDecimal(Double.parseDouble(Double.toString(checkIfDoubleIsNaN(amount))));
-        decimalValue.setScale(2,BigDecimal.ROUND_HALF_UP);
+       // decimalValue.setScale(2,BigDecimal.ROUND_HALF_UP);
         return decimalValue;
     }
     public Double checkIfDoubleIsNaN(Double value){

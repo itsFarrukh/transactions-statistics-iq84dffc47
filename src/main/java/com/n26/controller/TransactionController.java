@@ -28,14 +28,17 @@ public class TransactionController {
         transactionService.delete();
         return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
     }
-    @GetMapping("/tt")
-    ResponseEntity<String> checking(){
+    @PostMapping("/tt")
+    ResponseEntity<String> checking(@RequestBody Transaction transaction){
 
+/*
         Instant abhi = Instant.now();
         Instant abhiSephelay = Instant.now().minusSeconds(60);
         System.out.println(abhi.toEpochMilli());
         System.out.println(abhiSephelay.toEpochMilli());
+*/
         System.out.println(Instant.now());
+        System.out.println(transaction.getTimestamp());
         return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
     }
 }
