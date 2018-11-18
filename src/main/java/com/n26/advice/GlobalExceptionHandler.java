@@ -25,6 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidFormatException.class)
     public ResponseEntity<String> handleExceptionforInvalidFormat() {
         return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        
     }
 
 
